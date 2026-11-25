@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useAuth } from '@/hooks/useAuth';
 import { useDeleteTicket, useTicket, useUpdateTicket } from '@/hooks/useTickets';
 import { extractApiError } from '@/lib/errors';
@@ -19,7 +20,7 @@ import { DeleteTicketDialog } from '@/components/tickets/DeleteTicketDialog';
 export default function EditTicketPage() {
   const params = useParams<{ id: string }>();
   const ticketId = params.id;
-  const router = useRouter();
+  const router = useAppRouter();
   const { user } = useAuth();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);

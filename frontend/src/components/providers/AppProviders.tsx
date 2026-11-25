@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MotionConfig } from 'framer-motion';
 import { Toaster } from 'sonner';
 import { AuthProvider } from '@/context/AuthContext';
+import { RouteLoaderProvider } from '@/context/RouteLoaderContext';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
@@ -30,14 +31,16 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AuthProvider>
-          <MotionConfig reducedMotion="user">
-            <TooltipProvider delayDuration={200}>
-              {children}
-              <ThemedToaster />
-            </TooltipProvider>
-          </MotionConfig>
-        </AuthProvider>
+        <MotionConfig reducedMotion="user">
+          <RouteLoaderProvider>
+            <AuthProvider>
+              <TooltipProvider delayDuration={200}>
+                {children}
+                <ThemedToaster />
+              </TooltipProvider>
+            </AuthProvider>
+          </RouteLoaderProvider>
+        </MotionConfig>
       </ThemeProvider>
     </QueryClientProvider>
   );

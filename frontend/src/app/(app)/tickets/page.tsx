@@ -4,6 +4,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Plus, RotateCcw } from 'lucide-react';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useTickets } from '@/hooks/useTickets';
 import { useDebounce } from '@/hooks/useDebounce';
 import { extractApiError } from '@/lib/errors';
@@ -23,6 +24,7 @@ const PAGE_LIMIT = 10;
 
 function MyTicketsContent() {
   const router = useRouter();
+  const appRouter = useAppRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -168,7 +170,7 @@ function MyTicketsContent() {
             columns={columns}
             keyExtractor={(ticket) => ticket._id}
             isLoading={isLoading}
-            onRowClick={(ticket) => router.push(`/tickets/${ticket._id}`)}
+            onRowClick={(ticket) => appRouter.push(`/tickets/${ticket._id}`)}
             emptyState={
               hasActiveFilters ? (
                 <EmptyState

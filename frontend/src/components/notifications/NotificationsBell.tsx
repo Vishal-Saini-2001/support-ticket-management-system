@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Bell, Check, Inbox } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { CALM_EASE } from '@/components/ui/motion';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarkNotificationRead, useNotifications } from '@/hooks/useNotifications';
 import { extractApiError } from '@/lib/errors';
@@ -24,7 +24,7 @@ function getTicketIdFromNotification(notification: NotificationItem): string {
 }
 
 export function NotificationsBell() {
-  const router = useRouter();
+  const router = useAppRouter();
   const { user, isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
 

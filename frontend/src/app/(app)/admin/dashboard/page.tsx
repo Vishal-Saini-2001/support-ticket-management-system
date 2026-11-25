@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { ArrowRight, CheckCircle2, Clock, FolderKanban, Inbox } from 'lucide-react';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useStats } from '@/hooks/useStats';
 import { useTickets } from '@/hooks/useTickets';
 import { extractApiError } from '@/lib/errors';
@@ -19,7 +19,7 @@ import { AdminStatsCharts } from '@/components/admin/AdminStatsCharts';
 import { Badge } from '@/components/ui/badge';
 
 export default function AdminDashboardPage() {
-  const router = useRouter();
+  const router = useAppRouter();
   const statsQuery = useStats();
   const recentTicketsQuery = useTickets({ limit: 5, sort: '-createdAt', page: 1 });
 

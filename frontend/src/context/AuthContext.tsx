@@ -4,6 +4,7 @@ import { createContext, useCallback, useEffect, useMemo, useState, type ReactNod
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { api, TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from '@/lib/api';
+import { useRouteLoader } from '@/context/RouteLoaderContext';
 import type { AuthResponse, User } from '@/types/api';
 
 export interface LoginInput {
@@ -40,6 +41,7 @@ function normalizeUser(raw: User): User {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { startNavigation } = useRouteLoader();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -116,20 +118,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (input: LoginInput): Promise<User> => {
       const res = await api.post<AuthResponse>('/auth/login', input);
       const loggedInUser = persistAuth(res.data);
-      router.replace(loggedInUser.role === 'admin' ? '/admin/dashboard' : '/dashboard');
+      const target = loggedInUser.role === 'admin' ? '/admin/dashboard' : '/dashboard';
+      startNavigation(target);
+      router.replace(target);
       return loggedInUser;
     },
-    [persistAuth, router]
+    [persistAuth, router, startNavigation]
   );
 
   const register = useCallback(
     async (input: RegisterInput): Promise<User> => {
       const res = await api.post<AuthResponse>('/auth/register', input);
       const registeredUser = persistAuth(res.data);
+      startNavigation('/dashboard');
       router.replace('/dashboard');
       return registeredUser;
     },
-    [persistAuth, router]
+    [persistAuth, router, startNavigation]
   );
 
   const logout = useCallback(async () => {
@@ -139,9 +144,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Clear local session even if token already expired
     } finally {
       clearAuth();
+      startNavigation('/login');
       router.replace('/login');
     }
-  }, [clearAuth, router]);
+  }, [clearAuth, router, startNavigation]);
 
   const value = useMemo<AuthContextValue>(
     () => ({

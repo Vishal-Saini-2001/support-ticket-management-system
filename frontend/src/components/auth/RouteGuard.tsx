@@ -3,7 +3,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { Skeleton } from '@/components/ui/skeleton';
+import { FullScreenLoader } from '@/components/shared/FullScreenLoader';
 
 interface RouteGuardProps {
   mode: 'protected' | 'guest';
@@ -59,15 +59,7 @@ export function RouteGuard({ mode, children }: RouteGuardProps) {
   }, [adminRedirect, isAuthenticated, isLoading, mode, pathname, router, user]);
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background p-6">
-        <div className="w-full max-w-sm space-y-3">
-          <Skeleton className="h-6 w-32" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
-        </div>
-      </div>
-    );
+    return <FullScreenLoader label="Loading workspace…" />;
   }
 
   if (mode === 'protected') {

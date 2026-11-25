@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { ArrowRight, CheckCircle2, Clock, FolderKanban, Inbox, Plus } from 'lucide-react';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useAuth } from '@/hooks/useAuth';
 import { useStats } from '@/hooks/useStats';
 import { useTickets } from '@/hooks/useTickets';
@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 
 export default function UserDashboardPage() {
   const { user } = useAuth();
-  const router = useRouter();
+  const router = useAppRouter();
 
   const statsQuery = useStats();
   const recentTicketsQuery = useTickets({ limit: 5, sort: '-createdAt', page: 1 });

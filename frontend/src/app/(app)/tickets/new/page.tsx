@@ -1,13 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useCreateTicket } from '@/hooks/useTickets';
 import { PageHeader } from '@/components/shared/PageHeader';
 import { TicketForm, type TicketFormValues } from '@/components/tickets/TicketForm';
 
 export default function NewTicketPage() {
-  const router = useRouter();
+  const router = useAppRouter();
   const createTicket = useCreateTicket();
 
   const handleSubmit = async (values: TicketFormValues) => {

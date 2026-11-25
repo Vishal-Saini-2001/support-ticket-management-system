@@ -3,6 +3,7 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useTickets } from '@/hooks/useTickets';
 import { useDebounce } from '@/hooks/useDebounce';
 import { extractApiError } from '@/lib/errors';
@@ -22,6 +23,7 @@ const PAGE_LIMIT = 10;
 
 function AdminTicketsContent() {
   const router = useRouter();
+  const appRouter = useAppRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -179,7 +181,7 @@ function AdminTicketsContent() {
             columns={columns}
             keyExtractor={(ticket) => ticket._id}
             isLoading={isLoading}
-            onRowClick={(ticket) => router.push(`/admin/tickets/${ticket._id}`)}
+            onRowClick={(ticket) => appRouter.push(`/admin/tickets/${ticket._id}`)}
             emptyState={
               hasActiveFilters ? (
                 <EmptyState

@@ -2,9 +2,9 @@
 
 import { useState, type ReactNode } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { ArrowLeft, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAppRouter } from '@/hooks/useAppRouter';
 import { useAuth } from '@/hooks/useAuth';
 import { useDeleteTicket, useTicket } from '@/hooks/useTickets';
 import { extractApiError } from '@/lib/errors';
@@ -35,7 +35,7 @@ export function TicketDetailView({
   renderStatusControl,
   renderPriorityControl,
 }: TicketDetailViewProps) {
-  const router = useRouter();
+  const router = useAppRouter();
   const { user } = useAuth();
   const [deleteOpen, setDeleteOpen] = useState(false);
 
