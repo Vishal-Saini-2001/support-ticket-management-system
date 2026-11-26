@@ -86,3 +86,13 @@
   background-color: var(--muted);
 }
 
+.recharts-wrapper,
+.recharts-wrapper svg,
+.recharts-wrapper svg *,
+.recharts-surface,
+.recharts-sector,
+.recharts-layer {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
